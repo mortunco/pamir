@@ -110,6 +110,16 @@ pamir.sh  --configfile /path/to/config.yaml -j [number of threads]
 pamir.sh  --configfile /path/to/config.yaml -np [Dry Run] 
 pamir.sh  --configfile /path/to/config.yaml --forceall [rerun all steps regardless of the current stage]
 ```
+## Running pamir on High Performance Clusters (HPC)
+Pamir can be run on HPC environments using the command below. At this moment, HPC module allows only utilizing Slurm Worldload Manager system. `cluster.json` was develop and optimized for our spesific case and it might require edit to make it compatible with other task manager systems. This topic is currently out of our developlment scopes but we are happy to provide help for those users have job/memory/queue problems.
+
+### Advanced tweaking tips for cluster settings
+`cluster.json` contains all the cpu,memory, time and queue spesifications for individual tasks in the pipeline. Users can reduce/increase the values based on their system capabilities. We recommend maxing out `minia_all` and `pamir_assemble_full_new` resources for optimial performance as these two jobs are responsible from assembly tasks. task `__default__` should be understood as our express task that requires on only cpu and minor memory.
+
+```
+pamir.sh --configfile config.yaml  -j110 -p --cluster-config cluster.json
+```
+
 ## Output Formats
 Pamir will generate the following structure.
 Pamir generates a [VCF file](https://samtools.github.io/hts-specs/VCFv4.2.pdf) for detected novel sequence insertions. 
